@@ -53,7 +53,7 @@ public class StartControllerCommand extends AbstractBaseAdminCommand implements 
   private String _clusterName = DEFAULT_CLUSTER_NAME;
 
   @Option(name = "-controllerMode", required = false, metaVar = "<String>", usage = "Pinot controller mode.")
-  private String _controllerMode = HelixSetupUtils.ControllerMode.DUAL.name();
+  private HelixSetupUtils.ControllerMode _controllerMode = HelixSetupUtils.ControllerMode.DUAL;
 
   @Option(name = "-configFileName", required = false, metaVar = "<FilePathName>", usage = "Controller Starter config file", forbids = {"-controllerHost", "-controllerPort", "-dataDir", "-zkAddress", "-clusterName", "-controllerMode"})
   private String _configFileName;

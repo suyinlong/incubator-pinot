@@ -145,15 +145,21 @@ public abstract class ControllerTest {
 
     startControllerStarter(config);
 
-    _helixManager = _helixResourceManager.getHelixZkManager();
-    _helixAdmin = _helixResourceManager.getHelixAdmin();
-    _propertyStore = _helixResourceManager.getPropertyStore();
+    // HelixResourceManager is null in Helix only mode, while HelixManager is null in Pinot only mode.
+    _helixResourceManager = _controllerStarter.getHelixResourceManager();
+    _helixManager = _controllerStarter.getHelixControllerManager();
+    if (_helixManager != null) {
+      _helixAdmin = _helixManager.getClusterManagmentTool();
+      _propertyStore = _helixManager.getHelixPropertyStore();
+    } else {
+      _helixAdmin = _helixResourceManager.getHelixAdmin();
+      _propertyStore = _helixResourceManager.getPropertyStore();
+    }
   }
 
   protected void startControllerStarter(ControllerConf config) {
     _controllerStarter = new TestOnlyControllerStarter(config);
     _controllerStarter.start();
-    _helixResourceManager = _controllerStarter.getHelixResourceManager();
   }
 
   protected void stopController() {

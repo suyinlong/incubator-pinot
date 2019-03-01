@@ -141,7 +141,7 @@ public class ControllerConf extends PropertiesConfiguration {
   private static final int DEFAULT_REALTIME_SEGMENT_METADATA_COMMIT_NUMLOCKS = 64;
   private static final boolean DEFAULT_ENABLE_STORAGE_QUOTA_CHECK = true;
   private static final boolean DEFAULT_ENABLE_BATCH_MESSAGE_MODE = true;
-  private static final String DEFAULT_CONTROLLER_MODE = HelixSetupUtils.ControllerMode.DUAL.name();
+  private static final HelixSetupUtils.ControllerMode DEFAULT_CONTROLLER_MODE = HelixSetupUtils.ControllerMode.DUAL;
 
   private static final String DEFAULT_PINOT_FS_FACTORY_CLASS_LOCAL = LocalPinotFS.class.getName();
 
@@ -586,13 +586,11 @@ public class ControllerConf extends PropertiesConfiguration {
     return ControllerPeriodicTasksConf.getRandomInitialDelayInSeconds();
   }
 
-  public void setControllerMode(String controllerMode) {
-    if (controllerMode != null) {
-      setProperty(CONTROLLER_MODE, controllerMode);
-    }
+  public void setControllerMode(HelixSetupUtils.ControllerMode controllerMode) {
+    setProperty(CONTROLLER_MODE, controllerMode.name());
   }
 
-  public String getControllerMode() {
-    return getString(CONTROLLER_MODE, DEFAULT_CONTROLLER_MODE);
+  public HelixSetupUtils.ControllerMode getControllerMode() {
+    return HelixSetupUtils.ControllerMode.getMode(getString(CONTROLLER_MODE, DEFAULT_CONTROLLER_MODE.name()));
   }
 }
