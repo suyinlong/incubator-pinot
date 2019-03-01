@@ -29,6 +29,7 @@ import org.apache.pinot.common.data.FieldSpec;
 import org.apache.pinot.common.data.Schema;
 import org.apache.pinot.common.utils.JsonUtils;
 import org.apache.pinot.core.data.GenericRow;
+import org.apache.pinot.core.indexsegment.generator.SegmentGeneratorConfig;
 
 
 /**
@@ -42,15 +43,16 @@ public class JSONRecordReader implements RecordReader {
   private JsonParser _parser;
   private Iterator<Map> _iterator;
 
+
   public JSONRecordReader(File dataFile, Schema schema)
       throws IOException {
     _dataFile = dataFile;
     _schema = schema;
 
-    init();
+    initialize();
   }
 
-  private void init()
+  private void initialize()
       throws IOException {
     _parser = _factory.createParser(RecordReaderUtils.getFileReader(_dataFile));
     try {
@@ -59,6 +61,11 @@ public class JSONRecordReader implements RecordReader {
       _parser.close();
       throw e;
     }
+  }
+
+  @Override
+  public void init(SegmentGeneratorConfig segmentGeneratorConfig) {
+
   }
 
   @Override
@@ -97,7 +104,7 @@ public class JSONRecordReader implements RecordReader {
   public void rewind()
       throws IOException {
     _parser.close();
-    init();
+    initialize();
   }
 
   @Override

@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.pinot.common.data.FieldSpec;
 import org.apache.pinot.common.data.Schema;
 import org.apache.pinot.core.data.GenericRow;
+import org.apache.pinot.core.indexsegment.generator.SegmentGeneratorConfig;
 
 
 /**
@@ -86,10 +87,15 @@ public class CSVRecordReader implements RecordReader {
       _multiValueDelimiter = config.getMultiValueDelimiter();
     }
 
-    init();
+    initialize();
   }
 
-  private void init()
+  @Override
+  public void init(SegmentGeneratorConfig segmentGeneratorConfig) {
+
+  }
+
+  private void initialize()
       throws IOException {
     _parser = _format.parse(RecordReaderUtils.getFileReader(_dataFile));
     _iterator = _parser.iterator();
@@ -131,7 +137,7 @@ public class CSVRecordReader implements RecordReader {
   public void rewind()
       throws IOException {
     _parser.close();
-    init();
+    initialize();
   }
 
   @Override

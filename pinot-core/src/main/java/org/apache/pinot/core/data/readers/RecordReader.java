@@ -22,6 +22,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import org.apache.pinot.common.data.Schema;
 import org.apache.pinot.core.data.GenericRow;
+import org.apache.pinot.core.indexsegment.generator.SegmentGeneratorConfig;
 
 
 /**
@@ -29,6 +30,11 @@ import org.apache.pinot.core.data.GenericRow;
  * Pinot segments will be generated from {@link GenericRow}s.
  */
 public interface RecordReader extends Closeable {
+
+  /**
+   * A temporary method only for the ORCRecordReader to allow instantiation through reflection.
+   */
+  void init(SegmentGeneratorConfig segmentGeneratorConfig);
 
   /**
    * Return <code>true</code> if more records remain to be read.
